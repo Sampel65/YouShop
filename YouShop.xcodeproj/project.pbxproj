@@ -6,20 +6,71 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		605669502D802B2B0058AEBB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 6056694F2D802B2B0058AEBB /* Alamofire */; };
+		60834CCC2D7F9CEB00D493B8 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 60834CCB2D7F9CEB00D493B8 /* FirebaseAuth */; };
+		60834CCE2D7F9CEB00D493B8 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 60834CCD2D7F9CEB00D493B8 /* FirebaseFirestore */; };
+		60834CD02D7F9CEB00D493B8 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 60834CCF2D7F9CEB00D493B8 /* FirebaseFunctions */; };
+		60834CD22D7F9CEB00D493B8 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 60834CD12D7F9CEB00D493B8 /* FirebaseStorage */; };
+		60834CD82D7FA1F800D493B8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60834CD72D7FA1F800D493B8 /* GoogleService-Info.plist */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		60AAC1AC2D80D88C0035C9C0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 60834CB12D7F9C0700D493B8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 60834CB82D7F9C0700D493B8;
+			remoteInfo = YouShop;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		60834CB92D7F9C0700D493B8 /* YouShop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouShop.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		60834CD72D7FA1F800D493B8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		60AAC1A82D80D88C0035C9C0 /* YouShopTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YouShopTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		60834CE42D7FA66B00D493B8 /* Exceptions for "YouShop" folder in "YouShop" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 60834CB82D7F9C0700D493B8 /* YouShop */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		60834CBB2D7F9C0700D493B8 /* YouShop */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				60834CE42D7FA66B00D493B8 /* Exceptions for "YouShop" folder in "YouShop" target */,
+			);
 			path = YouShop;
+			sourceTree = "<group>";
+		};
+		60AAC1A92D80D88C0035C9C0 /* YouShopTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = YouShopTests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		60834CB62D7F9C0700D493B8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				605669502D802B2B0058AEBB /* Alamofire in Frameworks */,
+				60834CD02D7F9CEB00D493B8 /* FirebaseFunctions in Frameworks */,
+				60834CD22D7F9CEB00D493B8 /* FirebaseStorage in Frameworks */,
+				60834CCC2D7F9CEB00D493B8 /* FirebaseAuth in Frameworks */,
+				60834CCE2D7F9CEB00D493B8 /* FirebaseFirestore in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60AAC1A52D80D88C0035C9C0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -32,7 +83,9 @@
 		60834CB02D7F9C0700D493B8 = {
 			isa = PBXGroup;
 			children = (
+				60834CD72D7FA1F800D493B8 /* GoogleService-Info.plist */,
 				60834CBB2D7F9C0700D493B8 /* YouShop */,
+				60AAC1A92D80D88C0035C9C0 /* YouShopTests */,
 				60834CBA2D7F9C0700D493B8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +94,7 @@
 			isa = PBXGroup;
 			children = (
 				60834CB92D7F9C0700D493B8 /* YouShop.app */,
+				60AAC1A82D80D88C0035C9C0 /* YouShopTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -65,10 +119,38 @@
 			);
 			name = YouShop;
 			packageProductDependencies = (
+				60834CCB2D7F9CEB00D493B8 /* FirebaseAuth */,
+				60834CCD2D7F9CEB00D493B8 /* FirebaseFirestore */,
+				60834CCF2D7F9CEB00D493B8 /* FirebaseFunctions */,
+				60834CD12D7F9CEB00D493B8 /* FirebaseStorage */,
+				6056694F2D802B2B0058AEBB /* Alamofire */,
 			);
 			productName = YouShop;
 			productReference = 60834CB92D7F9C0700D493B8 /* YouShop.app */;
 			productType = "com.apple.product-type.application";
+		};
+		60AAC1A72D80D88C0035C9C0 /* YouShopTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 60AAC1AE2D80D88C0035C9C0 /* Build configuration list for PBXNativeTarget "YouShopTests" */;
+			buildPhases = (
+				60AAC1A42D80D88C0035C9C0 /* Sources */,
+				60AAC1A52D80D88C0035C9C0 /* Frameworks */,
+				60AAC1A62D80D88C0035C9C0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				60AAC1AD2D80D88C0035C9C0 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				60AAC1A92D80D88C0035C9C0 /* YouShopTests */,
+			);
+			name = YouShopTests;
+			packageProductDependencies = (
+			);
+			productName = YouShopTests;
+			productReference = 60AAC1A82D80D88C0035C9C0 /* YouShopTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -83,6 +165,10 @@
 					60834CB82D7F9C0700D493B8 = {
 						CreatedOnToolsVersion = 16.1;
 					};
+					60AAC1A72D80D88C0035C9C0 = {
+						CreatedOnToolsVersion = 16.1;
+						TestTargetID = 60834CB82D7F9C0700D493B8;
+					};
 				};
 			};
 			buildConfigurationList = 60834CB42D7F9C0700D493B8 /* Build configuration list for PBXProject "YouShop" */;
@@ -94,18 +180,31 @@
 			);
 			mainGroup = 60834CB02D7F9C0700D493B8;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				60834CCA2D7F9CEB00D493B8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				6056694E2D802B2B0058AEBB /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 60834CBA2D7F9C0700D493B8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				60834CB82D7F9C0700D493B8 /* YouShop */,
+				60AAC1A72D80D88C0035C9C0 /* YouShopTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		60834CB72D7F9C0700D493B8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				60834CD82D7FA1F800D493B8 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60AAC1A62D80D88C0035C9C0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +221,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		60AAC1A42D80D88C0035C9C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		60AAC1AD2D80D88C0035C9C0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 60834CB82D7F9C0700D493B8 /* YouShop */;
+			targetProxy = 60AAC1AC2D80D88C0035C9C0 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		60834CC52D7F9C0A00D493B8 /* Debug */ = {
@@ -255,6 +369,7 @@
 				DEVELOPMENT_TEAM = T6LQU8TP96;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YouShop/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -284,6 +399,7 @@
 				DEVELOPMENT_TEAM = T6LQU8TP96;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YouShop/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -299,6 +415,42 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		60AAC1AF2D80D88C0035C9C0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T6LQU8TP96;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sampel.YouShopTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YouShop.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/YouShop";
+			};
+			name = Debug;
+		};
+		60AAC1B02D80D88C0035C9C0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = T6LQU8TP96;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sampel.YouShopTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/YouShop.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/YouShop";
 			};
 			name = Release;
 		};
@@ -323,7 +475,63 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		60AAC1AE2D80D88C0035C9C0 /* Build configuration list for PBXNativeTarget "YouShopTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				60AAC1AF2D80D88C0035C9C0 /* Debug */,
+				60AAC1B02D80D88C0035C9C0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6056694E2D802B2B0058AEBB /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		60834CCA2D7F9CEB00D493B8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6056694F2D802B2B0058AEBB /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6056694E2D802B2B0058AEBB /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		60834CCB2D7F9CEB00D493B8 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 60834CCA2D7F9CEB00D493B8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		60834CCD2D7F9CEB00D493B8 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 60834CCA2D7F9CEB00D493B8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		60834CCF2D7F9CEB00D493B8 /* FirebaseFunctions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 60834CCA2D7F9CEB00D493B8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFunctions;
+		};
+		60834CD12D7F9CEB00D493B8 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 60834CCA2D7F9CEB00D493B8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 60834CB12D7F9C0700D493B8 /* Project object */;
 }

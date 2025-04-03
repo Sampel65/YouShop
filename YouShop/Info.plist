@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>UIAppFonts</key>
+    <array>
+        <string>Metropolis-Regular.otf</string>
+    </array>
+    
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>fetch</string>
+        <string>remote-notification</string>
+    </array>
+    
+    <key>NSUserNotificationsUsageDescription</key>
+    <string>We need your permission to send you order updates and important notifications.</string>
+    
+    <key>NSUserNotificationCenterDelegate</key>
+    <string>YES</string>
+    
+    <key>NSUserNotificationAlertStyle</key>
+    <string>alert</string>
+    
+    <key>NSNotificationCenterEnabled</key>
+    <true/>
+    
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>This app needs access to photos to let you choose a profile picture.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>This app needs access to camera to let you take a profile picture.</string>
+
+</dict>
+</plist>

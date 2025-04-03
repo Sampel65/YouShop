@@ -1,46 +1,76 @@
 import Foundation
 
 class OrderManager: ObservableObject {
-    @Published var orders: [Order] = []
-    
     static let shared = OrderManager()
     
-    private init() {
+    @Published var orders: [Order] = []
+    private let ordersKey = "stored_orders"
+    private let notificationManager = NotificationManager.shared
+    
+    init() {
         loadOrders()
     }
     
-    func addOrder(_ order: Order) {
-        orders.insert(order, at: 0)
-        saveOrders()
-    }
-    
-    private func saveOrders() {
-        if let encoded = try? JSONEncoder().encode(orders) {
-            UserDefaults.standard.set(encoded, forKey: "saved_orders")
-        }
-    }
-    
-    private func loadOrders() {
-        if let data = UserDefaults.standard.data(forKey: "saved_orders"),
-           let savedOrders = try? JSONDecoder().decode([Order].self, from: data) {
-            orders = savedOrders
+    func addOrder(items: [Product: Int], total: Double, address: String, paymentMethod: String) {
+        let orderId = UUID().uuidString
+        let order = Order(
+            id: orderId,
+            items: items,
+            total: total,
+            address: address,
+            paymentMethod: paymentMethod,
+            status: .processing,
+            date: Date()
+        )
+        
+        DispatchQueue.main.async {
+            self.orders.insert(order, at: 0) // Add new orders at the top
+            self.saveOrders()
+            
+            // Send notification for new order
+            self.notificationManager.sendOrderNotification(orderId: orderId)
         }
     }
     
     func updateOrderStatus(_ orderId: String, status: OrderStatus) {
         if let index = orders.firstIndex(where: { $0.id == orderId }) {
             var updatedOrder = orders[index]
-            updatedOrder = Order(
-                id: updatedOrder.id,
-                items: updatedOrder.items,
-                total: updatedOrder.total,
-                address: updatedOrder.address,
-                paymentMethod: updatedOrder.paymentMethod,
-                status: status,
-                date: updatedOrder.date
-            )
+            updatedOrder.status = status
             orders[index] = updatedOrder
             saveOrders()
+            
+            // Send notification for status update
+            notificationManager.addNotification("Order #\(orderId) status updated to \(status.rawValue)")
         }
     }
-}\
+    
+    private func saveOrders() {
+        if let encoded = try? JSONEncoder().encode(orders) {
+            UserDefaults.standard.set(encoded, forKey: ordersKey)
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    private func loadOrders() {
+        if let data = UserDefaults.standard.data(forKey: ordersKey),
+           let decoded = try? JSONDecoder().decode([Order].self, from: data) {
+            self.orders = decoded.sorted(by: { $0.date > $1.date })
+        }
+    }
+    
+    func clearAllOrders() {
+        orders.removeAll()
+        saveOrders()
+    }
+    
+    func getOrder(by id: String) -> Order? {
+        return orders.first { $0.id == id }
+    }
+}
+
+// Extension to make Order mutable for status updates
+extension Order {
+    mutating func updateStatus(_ newStatus: OrderStatus) {
+        self.status = newStatus
+    }
+}

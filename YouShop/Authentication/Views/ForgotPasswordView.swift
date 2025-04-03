@@ -5,7 +5,6 @@ struct ForgotPasswordView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel = AuthViewModel()
     @State private var email = ""
-    @FocusState private var isEmailFocused: Bool
     @State private var showAlert = false
     @State private var alertTitle = ""
     @State private var alertMessage = ""
@@ -35,8 +34,7 @@ struct ForgotPasswordView: View {
                     title: "Email",
                     text: $email,
                     placeholder: "Enter your email",
-                    isSecure: false,
-                    isFocused: $isEmailFocused
+                    isSecure: false
                 )
                 
                 Spacer()
@@ -49,7 +47,6 @@ struct ForgotPasswordView: View {
                     height: 56,
                     cornerRadius: 28,
                     action: {
-                        // Implement password reset functionality
                         viewModel.resetPassword(email: email) { success, message in
                             alertTitle = success ? "Success" : "Error"
                             alertMessage = message
@@ -73,11 +70,6 @@ struct ForgotPasswordView: View {
             }
             .padding(.horizontal, 16)
             .navigationBarHidden(true)
-            .overlay(Group {
-                if viewModel.isLoading {
-                    ProgressView()
-                }
-            })
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text(alertTitle).afacadFont(16, weight: .bold),
@@ -96,4 +88,3 @@ struct ForgotPasswordView: View {
 #Preview {
     ForgotPasswordView()
 }
-

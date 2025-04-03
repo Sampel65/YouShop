@@ -7,12 +7,33 @@
 
 import SwiftUI
 
-struct YouShopTextField: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
 
-#Preview {
-    YouShopTextField()
+
+struct YouShopTextField: View {
+    let title: String
+    let placeholder: String
+    @Binding var text: String
+    var isSecure: Bool = false
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.system(size: 14, weight: .medium))
+                .foregroundColor(.gray)
+            
+            if isSecure {
+                SecureField(placeholder, text: $text)
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
+            } else {
+                TextField(placeholder, text: $text)
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
+            }
+        }
+    }
 }

@@ -1,4 +1,3 @@
-
 //
 //  AuthViewModel.swift
 //  YouShop
@@ -10,21 +9,21 @@ import Foundation
 import Firebase
 import FirebaseAuth
 import FirebaseFirestore
+import SwiftUI
 
+@MainActor
 class AuthViewModel: ObservableObject {
     @Published var user: User?
     @Published var isAuthenticated = false
-    @Published var error: String?
+    @Published var error: Error?
     @Published var isLoading = false
     private let db = Firestore.firestore()
-    
     
     private var userDetailsCache: [String: [String: Any]] = [:]
     
     func signUp(email: String, password: String, name: String, phone: String, address: String, completion: @escaping (Bool, String) -> Void) {
         isLoading = true
         
-     
         guard isValidEmail(email) else {
             isLoading = false
             completion(false, "Invalid email format")
@@ -37,25 +36,19 @@ class AuthViewModel: ObservableObject {
             return
         }
         
-        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
-            guard let self = self else { return }
-            
-            if let error = error {
-                self.handleAuthError(error, completion: completion)
-                return
+        Task {
+            do {
+                let result = try await Auth.auth().createUser(withEmail: email, password: password)
+                try await saveUserData(userId: result.user.uid, email: email, name: name, phone: phone, address: address)
+                completion(true, "Account created successfully!")
+            } catch {
+                isLoading = false
+                completion(false, error.localizedDescription)
             }
-            
-            guard let firebaseUser = result?.user else {
-                self.isLoading = false
-                completion(false, "Failed to create user")
-                return
-            }
-            
-            self.saveUserData(userId: firebaseUser.uid, email: email, name: name, phone: phone, address: address, completion: completion)
         }
     }
     
-    private func saveUserData(userId: String, email: String, name: String, phone: String, address: String, completion: @escaping (Bool, String) -> Void) {
+    private func saveUserData(userId: String, email: String, name: String, phone: String, address: String) async throws {
         let userRef = db.collection("users").document(userId)
         let personalDetailsRef = userRef.collection("personal_details").document("profile")
         
@@ -78,63 +71,43 @@ class AuthViewModel: ObservableObject {
         batch.setData(userData, forDocument: userRef)
         batch.setData(personalDetails, forDocument: personalDetailsRef)
         
-        batch.commit { [weak self] error in
-            guard let self = self else { return }
-            self.isLoading = false
-            
-            if let error = error {
-                completion(false, error.localizedDescription)
-                return
-            }
-            
-            
-            self.userDetailsCache[userId] = personalDetails
-            
-            let user = User(id: userId, email: email, name: name)
-            DispatchQueue.main.async {
-                self.user = user
-                self.isAuthenticated = true
-                completion(true, "Account created successfully!")
-            }
-        }
+        try await batch.commit()
+        self.userDetailsCache[userId] = personalDetails
+        
+        let user = User(id: userId, email: email, name: name)
+        self.user = user
+        self.isAuthenticated = true
+        self.isLoading = false
     }
     
     func signIn(email: String, password: String, completion: @escaping (Bool, String) -> Void) {
         isLoading = true
-        Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
-            guard let self = self else { return }
-            
-            if let error = error {
-                self.handleAuthError(error, completion: completion)
-                return
-            }
-            
-            guard let firebaseUser = result?.user else {
+        
+        Task {
+            do {
+                let result = try await Auth.auth().signIn(withEmail: email, password: password)
+                self.user = User(from: result.user)
+                self.isAuthenticated = true
                 self.isLoading = false
-                completion(false, "Failed to sign in")
-                return
-            }
-            
-            self.db.collection("users").document(firebaseUser.uid).getDocument { [weak self] document, error in
-                guard let self = self else { return }
+                completion(true, "Successfully logged in")
+            } catch {
                 self.isLoading = false
-                
-                if let error = error {
-                    completion(false, error.localizedDescription)
-                    return
-                }
-                
-                if let document = document, document.exists,
-                   let userData = document.data(),
-                   let email = userData["email"] as? String,
-                   let name = userData["name"] as? String {
-                    let user = User(id: firebaseUser.uid, email: email, name: name)
-                    self.user = user
-                    self.isAuthenticated = true
-                    completion(true, "Login successful!")
-                } else {
-                    completion(false, "User data not found")
-                }
+                completion(false, error.localizedDescription)
+            }
+        }
+    }
+    
+    func resetPassword(email: String, completion: @escaping (Bool, String) -> Void) {
+        isLoading = true
+        
+        Task {
+            do {
+                try await Auth.auth().sendPasswordReset(withEmail: email)
+                isLoading = false
+                completion(true, "Password reset email sent successfully")
+            } catch {
+                isLoading = false
+                completion(false, error.localizedDescription)
             }
         }
     }
@@ -145,7 +118,7 @@ class AuthViewModel: ObservableObject {
             self.user = nil
             self.isAuthenticated = false
         } catch {
-            self.error = error.localizedDescription
+            print("Error signing out: \(error.localizedDescription)")
         }
     }
     
@@ -157,18 +130,17 @@ class AuthViewModel: ObservableObject {
         
         let personalDetailsRef = db.collection("users").document(userId).collection("personal_details").document("profile")
         
-        personalDetailsRef.getDocument { [weak self] document, error in
-            if let error = error {
+        Task {
+            do {
+                let document = try await personalDetailsRef.getDocument()
+                if let data = document.data() {
+                    self.userDetailsCache[userId] = data
+                    completion(data, nil)
+                } else {
+                    completion(nil, "Personal details not found")
+                }
+            } catch {
                 completion(nil, error.localizedDescription)
-                return
-            }
-            
-            if let document = document, document.exists, let data = document.data() {
-                // Update cache
-                self?.userDetailsCache[userId] = data
-                completion(data, nil)
-            } else {
-                completion(nil, "Personal details not found")
             }
         }
     }

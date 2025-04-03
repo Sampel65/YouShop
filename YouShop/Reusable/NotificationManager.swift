@@ -1,10 +1,15 @@
 import Foundation
 import UserNotifications
+import SwiftUI
 
-class NotificationManager {
+class NotificationManager: ObservableObject {
     static let shared = NotificationManager()
     
-    private init() {
+    @Published var notifications: [NotificationItem] = []
+    private let notificationsKey = "stored_notifications"
+    
+    init() {
+        loadNotifications()
         requestAuthorization()
     }
     
@@ -13,29 +18,59 @@ class NotificationManager {
             if success {
                 print("Notification authorization granted")
             } else if let error = error {
-                print(error.localizedDescription)
+                print("Error requesting notification authorization: \(error.localizedDescription)")
             }
         }
     }
     
     func sendOrderNotification(orderId: String) {
         let content = UNMutableNotificationContent()
-        content.title = "Order Placed"
-        content.body = "Your Order #\(orderId) has been confirmed"
-        content.sound = .default
+        content.title = "Order Confirmation"
+        content.body = "Your order #\(orderId) has been placed successfully!"
+        content.sound = UNNotificationSound.default
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         
         UNUserNotificationCenter.current().add(request)
         
-        // Add to notifications view
-        NotificationCenter.default.post(
-            name: NSNotification.Name("NewOrderNotification"),
-            object: nil,
-            userInfo: ["message": "Order #\(orderId) has been confirmed check your order history for full details"]
-        )
+        // Add to local notifications list
+        DispatchQueue.main.async {
+            self.addNotification("Order #\(orderId) has been placed successfully!")
+        }
+    }
+    
+    func addNotification(_ message: String) {
+        let notification = NotificationItem(message: message, timestamp: Date(), isRead: false)
+        DispatchQueue.main.async {
+            self.notifications.insert(notification, at: 0) // Add new notifications at the top
+            self.saveNotifications()
+        }
+    }
+    
+    func saveNotifications() {
+        if let encoded = try? JSONEncoder().encode(notifications) {
+            UserDefaults.standard.set(encoded, forKey: notificationsKey)
+            UserDefaults.standard.synchronize()
+        }
+    }
+    
+    func loadNotifications() {
+        if let data = UserDefaults.standard.data(forKey: notificationsKey),
+           let decoded = try? JSONDecoder().decode([NotificationItem].self, from: data) {
+            self.notifications = decoded.sorted(by: { $0.timestamp > $1.timestamp })
+        }
+    }
+    
+    func markAsRead(_ notification: NotificationItem) {
+        if let index = notifications.firstIndex(where: { $0.id == notification.id }) {
+            notifications[index].isRead = true
+            saveNotifications()
+        }
+    }
+    
+    func clearAllNotifications() {
+        notifications.removeAll()
+        saveNotifications()
     }
 }
-
-// End of file

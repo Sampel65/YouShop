@@ -41,16 +41,14 @@ struct LoginView: View {
                         title: "Email",
                         text: $email,
                         placeholder: "Enter your email",
-                        isSecure: false,
-                        isFocused: $isEmailFocused
+                        isSecure: false
                     )
                     
                     YouShopTextTextfield(
                         title: "Password",
                         text: $password,
                         placeholder: "Enter your password",
-                        isSecure: true,
-                        isFocused: $isPasswordFocused
+                        isSecure: true
                     )
                     
                     Button(action: {}) {

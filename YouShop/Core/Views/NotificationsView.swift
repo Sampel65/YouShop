@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-// Placeholder views
+
 struct NotificationsView: View {
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject private var notificationManager: NotificationManager

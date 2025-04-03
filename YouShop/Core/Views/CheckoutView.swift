@@ -11,6 +11,7 @@ struct CheckoutView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var cartManager: CartManager
+    @EnvironmentObject var orderManager: OrderManager
     @State private var showAddAddress = false
     @State private var showPaymentMethod = false
     @State private var address = ""
@@ -139,24 +140,13 @@ struct CheckoutView: View {
     }
     
     private func placeOrder() {
-        let orderId = String(Int.random(in: 10000...99999))
-        
-        // Create new order
-        let order = Order(
-            id: orderId,
+        // Add order to OrderManager (notification will be handled inside OrderManager)
+        orderManager.addOrder(
             items: cartManager.items,
             total: cartManager.total + 8.00,
             address: address,
-            paymentMethod: paymentMethod,
-            status: .processing,
-            date: Date()
+            paymentMethod: paymentMethod
         )
-        
-        // Save order to OrderManager
-        OrderManager.shared.addOrder(order)
-        
-        // Send notification
-        NotificationManager.shared.sendOrderNotification(orderId: orderId)
         
         // Clear cart and navigate to success
         cartManager.clearCart()

@@ -6,7 +6,7 @@ struct Order: Identifiable, Codable {
     let total: Double
     let address: String
     let paymentMethod: String
-    let status: OrderStatus
+    var status: OrderStatus 
     let date: Date
     
     var itemCount: Int {
@@ -31,4 +31,3 @@ enum OrderStatus: String, Codable, CaseIterable {
         }
     }
 }
-

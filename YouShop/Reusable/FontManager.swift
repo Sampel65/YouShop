@@ -1,4 +1,12 @@
 import CoreText
+import SwiftUI
+import Foundation
+
+func printIfDebug(_ message: String) {
+    #if DEBUG
+    print(message)
+    #endif
+}
 
 struct FontManager {
     enum AfacadWeight {
